@@ -1,0 +1,25 @@
+{
+  "name": "bazar-erp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "electron"
+  ],
+  "scripts": {
+    "dev:frontend": "yarn workspace frontend dev",
+    "dev:backend": "yarn workspace backend start:dev",
+    "dev:electron": "yarn workspace electron start",
+    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\" \"yarn dev:electron\"",
+    "build:frontend": "yarn workspace frontend build",
+    "build:backend": "yarn workspace backend build",
+    "prisma:generate": "npx prisma generate --schema=backend/prisma/schema.prisma",
+    "prisma:push": "npx prisma db push --schema=backend/prisma/schema.prisma"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}

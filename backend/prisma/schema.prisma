@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  username  String   @unique
+  email     String?  @unique
+  password  String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  Sale      Sale[]
+
+  @@map("users")
+}
+
+model Product {
+  id            String        @id @default(uuid())
+  code          Int           @unique @default(autoincrement())
+  name          String
+  description   String?
+  unitCost      Float
+  salePrice     Float
+  profitMargin  Float
+  status        ProductStatus @default(ACTIVE)
+  categoryId    String
+  stock         Int           @default(0)
+  minStockLevel Int           @default(0)
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @default(now()) @updatedAt @map("updated_at")
+  Sale          Sale[]
+
+  category ProductCategory @relation("CategoryProducts", fields: [categoryId], references: [id])
+
+  @@map("products")
+}
+
+model Sale {
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  quantity  Int
+  total     Float
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("sales")
+}
+
+model ProductCategory {
+  id          String                @id @default(uuid())
+  name        String                @unique
+  description String
+  status      ProductCategoryStatus @default(ACTIVE)
+  createdAt   DateTime              @default(now()) @map("created_at")
+  updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
+
+  products Product[] @relation("CategoryProducts")
+
+  @@map("product_categories")
+}
+
+enum ProductStatus {
+  ACTIVE   @map("ACTIVE")
+  INACTIVE @map("INACTIVE")
+  DELETED  @map("DELETED")
+}
+
+enum ProductCategoryStatus {
+  ACTIVE   @map("ACTIVE")
+  INACTIVE @map("INACTIVE")
+  DELETED  @map("DELETED")
+}
