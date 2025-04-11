@@ -41,8 +41,8 @@ export class CreateUserUseCase {
       active,
     })
 
-    await this.userRepository.create(user)
+    const createdUser = await this.userRepository.create(user)
 
-    return right({ user })
+    return right({ user: createdUser })
   }
 }

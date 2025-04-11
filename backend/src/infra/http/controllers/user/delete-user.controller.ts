@@ -13,9 +13,12 @@ export class DeleteUserController {
 
   @Delete()
   @HttpCode(204)
-  async handle(@Param('id') userId: string) {
+  async handle(@Param('id') userId: number) {
+    if(Number.isNaN(userId))
+      throw new BadRequestException('Invalid user id')
+
     const result = await this.deleteUser.execute({
-      userId,
+      userId: Number(userId),
     })
 
     if (result.isLeft()) {

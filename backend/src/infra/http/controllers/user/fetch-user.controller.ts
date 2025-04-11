@@ -7,8 +7,8 @@ export class FetchUserController {
   constructor(private fetchUser: FetchUserUseCase) { }
 
   @Get()
-  async handle(@Param('id') userId: string) {
-    const result = await this.fetchUser.execute({ id: userId })
+  async handle(@Param('id') userId: number) {
+    const result = await this.fetchUser.execute({ id: Number(userId) })
 
     if (result.isLeft()) {
       throw new BadRequestException()

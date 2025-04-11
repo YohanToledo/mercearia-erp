@@ -6,7 +6,7 @@ import { User } from '../../enterprise/entities/user'
 import { UserRepository } from '../repositories/user.repository'
 
 interface FetchUserUseCaseRequest {
-  id: string
+  id: number
 }
 
 type FetchUserUseCaseResponse = Either<

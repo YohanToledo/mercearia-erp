@@ -1,5 +1,4 @@
 import { Entity } from "@/core/entities/entity"
-import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 
 export interface PermissionProps {
     name: string
@@ -23,7 +22,7 @@ export class Permission extends Entity<PermissionProps> {
         this.props.description = description
     }
 
-    static create(props: PermissionProps, id?: UniqueEntityID) {
-        return new Permission(props, id)
+    static create(props: PermissionProps, id?: number) {
+        return new Permission(props, id ?? 0)
     }
 }

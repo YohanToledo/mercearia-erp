@@ -1,4 +1,3 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Product } from '@/domain/product/enterprise/entities/product'
 import { Prisma, Product as PrismaProduct } from '@prisma/client'
 
@@ -7,7 +6,6 @@ export class PrismaProductTransformer {
     return Product.create(
       {
         name: raw.name,
-        code: raw.code,
         description: raw.description,
         unitCost: raw.unitCost,
         salePrice: raw.salePrice,
@@ -19,15 +17,13 @@ export class PrismaProductTransformer {
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
-      new UniqueEntityID(raw.id),
+      raw.id,
     )
   }
 
   static toPrisma(product: Product): Prisma.ProductUncheckedCreateInput {
     return {
-      id: product.id.toString(),
       name: product.name,
-      code: product.code,
       description: product.description,
       unitCost: product.unitCost,
       salePrice: product.salePrice,
@@ -46,7 +42,7 @@ export class PrismaProductTransformer {
   
       return {
         where: {
-          id: product.id.toString(),
+          id: product.id,
         },
         data: {
           name: product.name,

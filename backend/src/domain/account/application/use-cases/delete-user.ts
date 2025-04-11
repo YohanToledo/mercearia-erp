@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common'
 import { UserRepository } from '../repositories/user.repository'
 
 interface DeleteUserUseCaseRequest {
-  userId: string
+  userId: number
 }
 
 type DeleteUserUseCaseResponse = Either<ResourceNotFoundError, null>

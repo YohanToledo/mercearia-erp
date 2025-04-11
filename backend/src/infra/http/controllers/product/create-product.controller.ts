@@ -13,7 +13,7 @@ const createProductBodySchema = z.object({
   salePrice: z.number().nonnegative('Preço de venda não pode ser negativo'),
   profitMargin: z.number().nonnegative('Margem de lucro não pode ser negativa').optional(),
   status: z.enum(['ACTIVE', 'INACTIVE', 'DELETED'], { message: 'Status inválido' }).optional().default("ACTIVE"),
-  categoryId: z.string().uuid('ID da categoria inválido'),
+  categoryId: z.number(),
   stock: z.number().int('Estoque deve ser um número inteiro').nonnegative('Estoque não pode ser negativo'),
   minStockLevel: z.number().int('Estoque mínimo deve ser um número inteiro').nonnegative().optional(),
 })

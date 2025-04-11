@@ -14,7 +14,7 @@ export class RolePermission extends Entity<RolePermissionProps> {
         return this.props.permissionId
     }
 
-    static create(props: RolePermissionProps) {
-        return new RolePermission(props)
+    static create(props: RolePermissionProps, id?: number) {
+        return new RolePermission(props, id ?? 0)
     }
 }

@@ -28,12 +28,15 @@ export class UpdateUserController {
   @Patch()
   async handle(
     @Body(bodyValidationPipe) body: UpdateUserBodySchema,
-    @Param('id') userId: string,
+    @Param('id') userId: number,
   ) {
+    if(Number.isNaN(userId))
+      throw new BadRequestException('Invalid user id')
+
     const { name, email, status } = body
 
     const result = await this.updateUser.execute({
-      id: userId,
+      id: Number(userId),
       name,
       email,
       status,

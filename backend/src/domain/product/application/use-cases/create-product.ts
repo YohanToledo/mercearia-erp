@@ -13,7 +13,7 @@ interface CreateProductUseCaseRequest {
   salePrice: number
   profitMargin?: number
   status: ProductStatus
-  categoryId: string
+  categoryId: number
   stock: number
   minStockLevel?: number
 }
@@ -47,9 +47,9 @@ export class CreateProductUseCase {
       minStockLevel: minStockLevel || 0,
     })
 
-    await this.productRepository.create(product)
+    const createdProduct = await this.productRepository.create(product)
 
-    return right({ product })
+    return right({ product: createdProduct })
   }
 
   private calculateProfitMargin(unitCost: number, salePrice: number): number {

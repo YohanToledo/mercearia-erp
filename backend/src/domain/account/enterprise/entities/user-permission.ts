@@ -14,7 +14,7 @@ export class UserPermission extends Entity<UserPermissionProps> {
         return this.props.permissionId
     }
 
-    static create(props: UserPermissionProps) {
-        return new UserPermission(props)
+    static create(props: UserPermissionProps, id?: number) {
+        return new UserPermission(props, id ?? 0)
     }
 }

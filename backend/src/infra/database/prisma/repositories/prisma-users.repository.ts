@@ -43,7 +43,7 @@ export class PrismaUserRepository implements UserRepository {
     }
   }
 
-  async findById(id: string): Promise<User | null> {
+  async findById(id: number): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     })
@@ -88,12 +88,14 @@ export class PrismaUserRepository implements UserRepository {
     await this.prisma.user.update(data)
   }
 
-  async create(user: User): Promise<void> {
+  async create(user: User): Promise<User> {
     const data = PrismaUserTransformer.toPrisma(user)
 
-    await this.prisma.user.create({
+    const createdUser = await this.prisma.user.create({
       data,
     })
+
+    return User.create(createdUser, createdUser.id)
   }
 
   async delete(user: User): Promise<void> {

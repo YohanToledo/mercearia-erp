@@ -8,10 +8,10 @@ export abstract class UserRepository {
     filters?: { search?: string },
   ): Promise<{ users: User[]; total: number }>
 
-  abstract findById(id: string): Promise<User | null>
+  abstract findById(id: number): Promise<User | null>
   abstract findByUsername(username: string): Promise<User | null>
   abstract findByEmail(email: string): Promise<User | null>
   abstract save(user: User): Promise<void>
-  abstract create(user: User): Promise<void>
+  abstract create(user: User): Promise<User>
   abstract delete(user: Partial<User>): Promise<void>
 }

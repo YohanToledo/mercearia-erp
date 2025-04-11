@@ -22,9 +22,9 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
         OR: [
           { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
           { description: { contains: search, mode: Prisma.QueryMode.insensitive } },
-          { status }
         ],
       }),
+      ...(status && { status: status }),
     }
 
     const total = await this.prisma.productCategory.count({
@@ -44,7 +44,7 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
     }
   }
 
-  async findById(id: string): Promise<ProductCategory | null> {
+  async findById(id: number): Promise<ProductCategory | null> {
     const product = await this.prisma.productCategory.findUnique({
       where: { id },
     })

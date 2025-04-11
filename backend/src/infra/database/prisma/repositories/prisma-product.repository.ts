@@ -22,10 +22,9 @@ export class PrismaProductRepository implements ProductRepository {
         OR: [
           { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
           { description: { contains: search, mode: Prisma.QueryMode.insensitive } },
-          { status }
-          //TODO: implementar search pelo code
         ],
       }),
+      ...(status && { status: status }),
     }
 
     const total = await this.prisma.product.count({
@@ -45,19 +44,7 @@ export class PrismaProductRepository implements ProductRepository {
     }
   }
 
-  async findByCode(code: number): Promise<Product | null> {
-    const product = await this.prisma.product.findUnique({
-      where: { code },
-    })
-
-    if (!product) {
-      return null
-    }
-
-    return PrismaProductTransformer.toDomain(product)
-  }
-
-  async findById(id: string): Promise<Product | null> {
+  async findById(id: number): Promise<Product | null> {
     const product = await this.prisma.product.findUnique({
       where: { id },
     })
@@ -74,12 +61,14 @@ export class PrismaProductRepository implements ProductRepository {
     await this.prisma.product.update(data)
   }
 
-  async create(product: Product): Promise<void> {
+  async create(product: Product): Promise<Product> {
     const data = PrismaProductTransformer.toPrisma(product)
 
-    await this.prisma.product.create({
+    const createdProduct = await this.prisma.product.create({
       data,
     })
+
+    return Product.create(createdProduct, createdProduct.id)
   }
 
   async softDelete(product: Product): Promise<void> {

@@ -1,3 +1,8 @@
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "erd.png"
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,7 +13,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        Int      @unique @default(autoincrement())
   name      String
   username  String   @unique
   email     String?  @unique
@@ -22,15 +27,14 @@ model User {
 }
 
 model Product {
-  id            String        @id @default(uuid())
-  code          Int           @unique @default(autoincrement())
+  id            Int           @unique @default(autoincrement())
   name          String
   description   String?
   unitCost      Float
   salePrice     Float
   profitMargin  Float
   status        ProductStatus @default(ACTIVE)
-  categoryId    String
+  categoryId    Int
   stock         Int           @default(0)
   minStockLevel Int           @default(0)
   createdAt     DateTime      @default(now()) @map("created_at")
@@ -38,27 +42,13 @@ model Product {
   Sale          Sale[]
 
   category ProductCategory @relation("CategoryProducts", fields: [categoryId], references: [id])
+  SaleItem SaleItem[]
 
   @@map("products")
 }
 
-model Sale {
-  id        String   @id @default(uuid())
-  userId    String
-  productId String
-  quantity  Int
-  total     Float
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-
-  user    User    @relation(fields: [userId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
-
-  @@map("sales")
-}
-
 model ProductCategory {
-  id          String                @id @default(uuid())
+  id          Int                   @unique @default(autoincrement())
   name        String                @unique
   description String
   status      ProductCategoryStatus @default(ACTIVE)
@@ -70,6 +60,77 @@ model ProductCategory {
   @@map("product_categories")
 }
 
+model Customer {
+  id    Int     @unique @default(autoincrement())
+  name  String
+  phone String?
+  email String? @unique
+
+  createdAt   DateTime              @default(now()) @map("created_at")
+  updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
+
+  sales Sale[]
+
+  @@map("customers")
+}
+
+model Sale {
+  id            Int            @unique @default(autoincrement())
+  customerId    Int?
+  customer      Customer?      @relation(fields: [customerId], references: [id])
+  status        SaleStatus     @default(PAID)
+  totalAmount   Decimal
+  paymentMethod PaymentMethod? // preenchido só após o pagamento
+  paidAt        DateTime? // preenchido quando for quitado
+
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @default(now()) @updatedAt @map("updated_at")
+
+  payments  Payment[] // pagamentos relacionados (se for parcelado, por exemplo)
+  saleItems SaleItem[]
+  User      User?      @relation(fields: [userId], references: [id])
+  userId    Int?
+  Product   Product?   @relation(fields: [productId], references: [id])
+  productId Int?
+
+  @@map("sales")
+}
+
+model Payment {
+  id     Int           @unique @default(autoincrement())
+  saleId Int
+  sale   Sale          @relation(fields: [saleId], references: [id])
+  amount Decimal
+  method PaymentMethod
+  paidAt DateTime      @default(now())
+
+  createdAt   DateTime              @default(now()) @map("created_at")
+  updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
+
+  @@map("payments")
+}
+
+model SaleItem {
+  id        Int @unique @default(autoincrement())
+  saleId    Int
+  productId Int
+
+  quantity   Int
+  unitPrice  Float
+  totalPrice Float
+
+  sale    Sale    @relation(fields: [saleId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  createdAt   DateTime              @default(now()) @map("created_at")
+  updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
+
+  @@unique([saleId, productId]) // Evita duplicidade do mesmo produto na mesma venda
+
+  @@map("sale_items")
+}
+
+// ENUMS
 enum ProductStatus {
   ACTIVE   @map("ACTIVE")
   INACTIVE @map("INACTIVE")
@@ -80,4 +141,17 @@ enum ProductCategoryStatus {
   ACTIVE   @map("ACTIVE")
   INACTIVE @map("INACTIVE")
   DELETED  @map("DELETED")
+}
+
+enum SaleStatus {
+  PENDING  @map("PENDING")
+  PAID     @map("PAID")
+  CANCELED @map("CANCELED")
+}
+
+enum PaymentMethod {
+  CASH        @map("CASH")
+  CREDIT_CARD @map("CREDIT_CARD")
+  DEBIT_CARD  @map("DEBIT_CARD")
+  PIX         @map("PIX")
 }

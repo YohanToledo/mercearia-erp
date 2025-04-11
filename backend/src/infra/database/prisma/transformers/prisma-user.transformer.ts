@@ -1,4 +1,3 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { User } from '@/domain/account/enterprise/entities/user'
 import { Prisma, User as PrismaUser } from '@prisma/client'
 
@@ -14,13 +13,12 @@ export class PrismaUserTransformer {
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
-      new UniqueEntityID(raw.id),
+      raw.id,
     )
   }
 
   static toPrisma(user: User): Prisma.UserUncheckedCreateInput {
     return {
-      id: user.id.toString(),
       username: user.username,
       password: user.password,
       name: user.name,
@@ -36,7 +34,7 @@ export class PrismaUserTransformer {
 
     return {
       where: {
-        id: user.id.toString(),
+        id: user.id,
       },
       data: {
         username: user.username,

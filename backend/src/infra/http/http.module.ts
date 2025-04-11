@@ -23,6 +23,14 @@ import { AuthenticateController } from './controllers/auth/authenticate.controll
 import { ValidateTokenController } from './controllers/auth/validate-token.controller'
 import { CreateProductController } from './controllers/product/create-product.controller'
 import { CreateProductUseCase } from '@/domain/product/application/use-cases/create-product'
+import { FetchProductCategoriesController } from './controllers/product/fetch-categories.controller'
+import { FetchProductCategoriesUseCase } from '@/domain/product/application/use-cases/fetch-product-categories'
+import { FetchProductsController } from './controllers/product/fetch-products.controller'
+import { FetchProductsUseCase } from '@/domain/product/application/use-cases/fetch-products'
+import { FetchProductController } from './controllers/product/fetch-product.controller'
+import { UpdateProductController } from './controllers/product/update-product.controller'
+import { FetchProductUseCase } from '@/domain/product/application/use-cases/fetch-product'
+import { UpdateProductUseCase } from '@/domain/product/application/use-cases/update-product'
 
 @Module({
   imports: [
@@ -47,6 +55,10 @@ import { CreateProductUseCase } from '@/domain/product/application/use-cases/cre
     AuthenticateController,
     ValidateTokenController,
     CreateProductController,
+    FetchProductCategoriesController,
+    FetchProductsController,
+    FetchProductController,
+    UpdateProductController,
   ],
   providers: [
     AuthenticateUseCase,
@@ -57,6 +69,10 @@ import { CreateProductUseCase } from '@/domain/product/application/use-cases/cre
     UpdateUserUseCase,
     DeleteUserUseCase,
     CreateProductUseCase,
+    FetchProductCategoriesUseCase,
+    FetchProductsUseCase,
+    FetchProductUseCase,
+    UpdateProductUseCase,
   ],
 })
 export class HttpModule {}

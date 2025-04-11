@@ -7,9 +7,8 @@ export abstract class ProductRepository {
     filters?: { search?: string, status?: ProductStatus },
   ): Promise<{ products: Product[]; total: number }>
 
-  abstract findById(id: string): Promise<Product | null>
-  abstract findByCode(code: number): Promise<Product | null>
+  abstract findById(id: number): Promise<Product | null>
   abstract save(product: Product): Promise<void>
-  abstract create(product: Product): Promise<void>
+  abstract create(product: Product): Promise<Product>
   abstract softDelete(product: Partial<Product>): Promise<void>
 }

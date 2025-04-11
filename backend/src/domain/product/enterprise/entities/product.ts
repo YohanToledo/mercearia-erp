@@ -1,18 +1,16 @@
 import { Entity } from '@/core/entities/entity'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ProductCategory } from '@prisma/client'
 
 export type ProductStatus = 'ACTIVE' | 'INACTIVE' | 'DELETED'
 
 export interface ProductProps {
-    code?: number
     name: string
     description: string | null
     unitCost: number
     salePrice: number
     profitMargin: number
     status: ProductStatus
-    categoryId: string
+    categoryId: number
     category?: ProductCategory
     stock: number
     minStockLevel: number
@@ -21,10 +19,6 @@ export interface ProductProps {
 }
 
 export class Product extends Entity<ProductProps> {
-    get code() {
-        return this.props.code
-    }
-
     get name() {
         return this.props.name
     }
@@ -77,7 +71,7 @@ export class Product extends Entity<ProductProps> {
         return this.props.categoryId
     }
 
-    set categoryId(categoryId: string) {
+    set categoryId(categoryId: number) {
         this.props.categoryId = categoryId
     }
 
@@ -113,8 +107,8 @@ export class Product extends Entity<ProductProps> {
         return this.props.updatedAt
     }
 
-    static create(props: ProductProps, id?: UniqueEntityID) {
-        return new Product(props, id)
+    static create(props: ProductProps, id?: number) {
+        return new Product(props, id ?? 0)
     }
 
     update(props: Partial<ProductProps>): void {

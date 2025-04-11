@@ -1,5 +1,4 @@
 import { Entity } from '@/core/entities/entity'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 export type ProductCategoryStatus = 'ACTIVE' | 'INACTIVE' | 'DELETED'
 
@@ -44,8 +43,8 @@ export class ProductCategory extends Entity<ProductCategoryProps> {
         return this.props.updatedAt
     }
 
-    static create(props: ProductCategoryProps, id?: UniqueEntityID) {
-        return new ProductCategory(props, id)
+    static create(props: ProductCategoryProps, id?: number) {
+        return new ProductCategory(props, id ?? 0)
     }
 
     update(props: Partial<ProductCategoryProps>): void {

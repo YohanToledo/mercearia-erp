@@ -1,20 +1,17 @@
-import { UniqueEntityID } from './unique-entity-id'
-
 export class Entity<Props> {
-  private _id: UniqueEntityID
+  protected readonly _id: number
   protected props: Props
 
   get id() {
     return this._id
   }
 
-  protected constructor(props: Props, id?: UniqueEntityID) {
+  protected constructor(props: Props, id: number) {
     this.props = { ...props }
-    this._id = id ?? new UniqueEntityID()
+    this._id = id
   }
 
   public equals(entity: Entity<unknown>): boolean {
-    if (entity === this) return true
-    return entity.id.equals(this._id)
+    return entity.id === this._id
   }
 }

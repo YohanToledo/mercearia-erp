@@ -5,7 +5,7 @@ import { User } from '@/domain/account/enterprise/entities/user'
 import { Injectable } from '@nestjs/common'
 
 interface UpdateUserUseCaseRequest {
-  id: string
+  id: number
   name?: string
   email?: string
   status?: string

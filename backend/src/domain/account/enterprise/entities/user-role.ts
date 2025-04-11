@@ -14,7 +14,7 @@ export class UserRole extends Entity<UserRoleProps> {
     return this.props.roleId
   }
 
-  static create(props: UserRoleProps) {
-    return new UserRole(props)
+  static create(props: UserRoleProps, id?: number) {
+    return new UserRole(props, id ?? 0)
   }
 }

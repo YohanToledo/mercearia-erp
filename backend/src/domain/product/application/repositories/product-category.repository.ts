@@ -7,7 +7,7 @@ export abstract class ProductCategoryRepository {
     filters?: { search?: string, status?: ProductCategoryStatus },
   ): Promise<{ categories: ProductCategory[]; total: number }>
 
-  abstract findById(id: string): Promise<ProductCategory | null>
+  abstract findById(id: number): Promise<ProductCategory | null>
   abstract save(category: ProductCategory): Promise<void>
   abstract create(category: ProductCategory): Promise<void>
   abstract softDelete(category: Partial<ProductCategory>): Promise<void>

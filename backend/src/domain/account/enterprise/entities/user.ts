@@ -1,5 +1,4 @@
 import { Entity } from '@/core/entities/entity'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 export interface UserProps {
   name: string
@@ -60,8 +59,8 @@ export class User extends Entity<UserProps> {
     return this.props.updatedAt
   }
 
-  static create(props: UserProps, id?: UniqueEntityID) {
-    return new User(props, id)
+  static create(props: UserProps, id?: number) {
+    return new User(props, id ?? 0)
   }
 
   update(props: Partial<UserProps>): void {
