@@ -68,7 +68,7 @@ export class PrismaProductRepository implements ProductRepository {
       data,
     })
 
-    return Product.create(createdProduct, createdProduct.id)
+    return PrismaProductTransformer.toDomain(createdProduct)
   }
 
   async softDelete(product: Product): Promise<void> {

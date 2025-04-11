@@ -38,9 +38,9 @@ model Product {
   id            Int           @id @unique @default(autoincrement()) @map("id")
   name          String        @map("name")
   description   String?       @map("description")
-  unitCost      Float         @map("unit_cost")
-  salePrice     Float         @map("sale_price")
-  profitMargin  Float         @map("profit_margin")
+  unitCost      Decimal       @map("unit_cost")
+  salePrice     Decimal       @map("sale_price")
+  profitMargin  Decimal       @map("profit_margin")
   status        ProductStatus @default(ACTIVE) @map("status")
   categoryId    Int           @map("category_id")
   stock         Int           @default(0) @map("stock")
@@ -116,7 +116,7 @@ model Sale {
   customerId    Int?           @map("customer_id")
   customer      Customer?      @relation(fields: [customerId], references: [id])
   status        SaleStatus     @default(PAID) @map("status")
-  totalAmount   Float          @map("total_amount")
+  totalAmount   Decimal        @map("total_amount")
   paymentMethod PaymentMethod? @map("payment_method")
   paidAt        DateTime?      @map("paid_at")
 
@@ -138,9 +138,9 @@ model SaleItem {
   saleId    Int @map("sale_id")
   productId Int @map("product_id")
 
-  quantity   Int   @map("quantity")
-  unitPrice  Float @map("unit_price")
-  totalPrice Float @map("total_price")
+  quantity   Int     @map("quantity")
+  unitPrice  Decimal @map("unit_price")
+  totalPrice Decimal @map("total_price")
 
   sale    Sale    @relation(fields: [saleId], references: [id])
   product Product @relation(fields: [productId], references: [id])
@@ -166,7 +166,7 @@ model Payment {
   id     Int           @id @unique @default(autoincrement()) @map("id")
   saleId Int           @map("sale_id")
   sale   Sale          @relation(fields: [saleId], references: [id])
-  amount Float         @map("amount")
+  amount Decimal       @map("amount")
   method PaymentMethod @map("method")
   paidAt DateTime      @default(now()) @map("paid_at")
 
@@ -188,10 +188,10 @@ enum PaymentMethod {
 /// =====================
 
 model Purchase {
-  id          Int            @id @default(autoincrement()) @map("id")
+  id          Int            @id @unique @default(autoincrement()) @map("id")
   supplierId  Int            @map("supplier_id")
   status      PurchaseStatus @default(PENDING) @map("status")
-  totalAmount Float          @map("total_amount")
+  totalAmount Decimal        @map("total_amount")
   createdAt   DateTime       @default(now()) @map("created_at")
   updatedAt   DateTime       @updatedAt @map("updated_at")
 
@@ -202,11 +202,11 @@ model Purchase {
 }
 
 model PurchaseItem {
-  id         Int   @id @default(autoincrement()) @map("id")
-  purchaseId Int   @map("purchase_id")
-  productId  Int   @map("product_id")
-  quantity   Int   @map("quantity")
-  unitCost   Float @map("unit_cost")
+  id         Int     @id @unique @default(autoincrement()) @map("id")
+  purchaseId Int     @map("purchase_id")
+  productId  Int     @map("product_id")
+  quantity   Int     @map("quantity")
+  unitCost   Decimal @map("unit_cost")
 
   purchase Purchase @relation(fields: [purchaseId], references: [id])
   product  Product  @relation(fields: [productId], references: [id])
@@ -215,7 +215,7 @@ model PurchaseItem {
 }
 
 model StockMovement {
-  id        Int          @id @default(autoincrement()) @map("id")
+  id        Int          @id @unique @default(autoincrement()) @map("id")
   productId Int          @map("product_id")
   type      MovementType @map("type")
   quantity  Int          @map("quantity")
@@ -244,11 +244,61 @@ enum PurchaseStatus {
 /// =====================
 
 model Supplier {
-  id        Int      @id @default(autoincrement()) @map("id")
+  id        Int      @id @unique @default(autoincrement()) @map("id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   Purchase Purchase[]
 
   @@map("suppliers")
+}
+
+/// =====================
+/// Unidades de Medida
+/// =====================
+
+model MeasureUnit {
+  id        Int               @id @unique @default(autoincrement()) @map("id")
+  name      String            @unique @map("name")
+  symbol    MeasureUnitSymbol @map("symbol")
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime          @default(now()) @updatedAt @map("updated_at")
+
+  @@map("measure_units")
+}
+
+enum MeasureUnitSymbol {
+  KG
+  L
+  UN
+}
+
+/// =====================
+/// Despesas
+/// ===================== 
+
+model Expense {
+  id                Int       @id @default(autoincrement()) @map("id")
+  description       String    @map("description")
+  amount            Decimal   @map("amount")
+  expenseCategoryId Int       @map("expense_category_id")
+  paidAt            DateTime? @map("paid_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  category ExpenseCategory @relation(fields: [expenseCategoryId], references: [id])
+
+  @@map("expenses")
+}
+
+model ExpenseCategory {
+  id          Int      @id @unique @default(autoincrement()) @map("id")
+  name        String   @unique @map("name")
+  description String   @map("description")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  expenses Expense[]
+
+  @@map("expense_categories")
 }

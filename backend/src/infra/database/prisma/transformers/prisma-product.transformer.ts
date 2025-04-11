@@ -1,5 +1,6 @@
 import { Product } from '@/domain/product/enterprise/entities/product'
 import { Prisma, Product as PrismaProduct } from '@prisma/client'
+import { Decimal } from '@prisma/client/runtime/library'
 
 export class PrismaProductTransformer {
   static toDomain(raw: PrismaProduct): Product {
@@ -7,9 +8,9 @@ export class PrismaProductTransformer {
       {
         name: raw.name,
         description: raw.description,
-        unitCost: raw.unitCost,
-        salePrice: raw.salePrice,
-        profitMargin: raw.profitMargin,
+        unitCost: raw.unitCost.toNumber(),
+        salePrice: raw.salePrice.toNumber(),
+        profitMargin: raw.profitMargin.toNumber(),
         status: raw.status,
         categoryId: raw.categoryId,
         stock: raw.stock,
@@ -25,9 +26,9 @@ export class PrismaProductTransformer {
     return {
       name: product.name,
       description: product.description,
-      unitCost: product.unitCost,
-      salePrice: product.salePrice,
-      profitMargin: product.profitMargin,
+      unitCost: new Decimal(product.unitCost),
+      salePrice: new Decimal(product.salePrice),
+      profitMargin: new Decimal(product.profitMargin),
       status: product.status,
       categoryId: product.categoryId,
       stock: product.stock,
@@ -47,9 +48,9 @@ export class PrismaProductTransformer {
         data: {
           name: product.name,
           description: product.description,
-          unitCost: product.unitCost,
-          salePrice: product.salePrice,
-          profitMargin: product.profitMargin,
+          ...(product.unitCost && { unitCost: new Decimal(product.unitCost) }),
+          ...(product.salePrice && { salePrice: new Decimal(product.salePrice) }),
+          ...(product.profitMargin && { profitMargin: new Decimal(product.profitMargin) }),
           status: product.status,
           categoryId: product.categoryId,
           stock: product.stock,
