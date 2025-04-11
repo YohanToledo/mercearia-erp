@@ -12,13 +12,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// =====================
+/// Usuarios e permissoes
+/// =====================
+
 model User {
-  id        Int      @unique @default(autoincrement())
-  name      String
-  username  String   @unique
-  email     String?  @unique
-  password  String
-  active    Boolean  @default(true)
+  id        Int      @id @unique @default(autoincrement()) @map("id")
+  name      String   @map("name")
+  username  String   @unique @map("username")
+  email     String?  @unique @map("email")
+  password  String   @map("password")
+  active    Boolean  @default(true) @map("active")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   Sale      Sale[]
@@ -26,32 +30,38 @@ model User {
   @@map("users")
 }
 
+/// =====================
+/// Produto e categorias
+/// =====================
+
 model Product {
-  id            Int           @unique @default(autoincrement())
-  name          String
-  description   String?
-  unitCost      Float
-  salePrice     Float
-  profitMargin  Float
-  status        ProductStatus @default(ACTIVE)
-  categoryId    Int
-  stock         Int           @default(0)
-  minStockLevel Int           @default(0)
+  id            Int           @id @unique @default(autoincrement()) @map("id")
+  name          String        @map("name")
+  description   String?       @map("description")
+  unitCost      Float         @map("unit_cost")
+  salePrice     Float         @map("sale_price")
+  profitMargin  Float         @map("profit_margin")
+  status        ProductStatus @default(ACTIVE) @map("status")
+  categoryId    Int           @map("category_id")
+  stock         Int           @default(0) @map("stock")
+  minStockLevel Int           @default(0) @map("min_stock_level")
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @default(now()) @updatedAt @map("updated_at")
-  Sale          Sale[]
+  sale          Sale[]
 
-  category ProductCategory @relation("CategoryProducts", fields: [categoryId], references: [id])
-  SaleItem SaleItem[]
+  category      ProductCategory @relation("CategoryProducts", fields: [categoryId], references: [id])
+  saleItem      SaleItem[]
+  stockMovement StockMovement[]
+  PurchaseItem  PurchaseItem[]
 
   @@map("products")
 }
 
 model ProductCategory {
-  id          Int                   @unique @default(autoincrement())
-  name        String                @unique
-  description String
-  status      ProductCategoryStatus @default(ACTIVE)
+  id          Int                   @id @unique @default(autoincrement()) @map("id")
+  name        String                @unique @map("name")
+  description String                @map("description")
+  status      ProductCategoryStatus @default(ACTIVE) @map("status")
   createdAt   DateTime              @default(now()) @map("created_at")
   updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
 
@@ -60,77 +70,6 @@ model ProductCategory {
   @@map("product_categories")
 }
 
-model Customer {
-  id    Int     @unique @default(autoincrement())
-  name  String
-  phone String?
-  email String? @unique
-
-  createdAt   DateTime              @default(now()) @map("created_at")
-  updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
-
-  sales Sale[]
-
-  @@map("customers")
-}
-
-model Sale {
-  id            Int            @unique @default(autoincrement())
-  customerId    Int?
-  customer      Customer?      @relation(fields: [customerId], references: [id])
-  status        SaleStatus     @default(PAID)
-  totalAmount   Decimal
-  paymentMethod PaymentMethod? // preenchido só após o pagamento
-  paidAt        DateTime? // preenchido quando for quitado
-
-  createdAt     DateTime       @default(now()) @map("created_at")
-  updatedAt     DateTime       @default(now()) @updatedAt @map("updated_at")
-
-  payments  Payment[] // pagamentos relacionados (se for parcelado, por exemplo)
-  saleItems SaleItem[]
-  User      User?      @relation(fields: [userId], references: [id])
-  userId    Int?
-  Product   Product?   @relation(fields: [productId], references: [id])
-  productId Int?
-
-  @@map("sales")
-}
-
-model Payment {
-  id     Int           @unique @default(autoincrement())
-  saleId Int
-  sale   Sale          @relation(fields: [saleId], references: [id])
-  amount Decimal
-  method PaymentMethod
-  paidAt DateTime      @default(now())
-
-  createdAt   DateTime              @default(now()) @map("created_at")
-  updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
-
-  @@map("payments")
-}
-
-model SaleItem {
-  id        Int @unique @default(autoincrement())
-  saleId    Int
-  productId Int
-
-  quantity   Int
-  unitPrice  Float
-  totalPrice Float
-
-  sale    Sale    @relation(fields: [saleId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
-
-  createdAt   DateTime              @default(now()) @map("created_at")
-  updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
-
-  @@unique([saleId, productId]) // Evita duplicidade do mesmo produto na mesma venda
-
-  @@map("sale_items")
-}
-
-// ENUMS
 enum ProductStatus {
   ACTIVE   @map("ACTIVE")
   INACTIVE @map("INACTIVE")
@@ -143,10 +82,91 @@ enum ProductCategoryStatus {
   DELETED  @map("DELETED")
 }
 
+/// =====================
+/// Clientes
+/// =====================
+
+model Customer {
+  id    Int     @id @unique @default(autoincrement()) @map("id")
+  name  String  @map("name")
+  phone String? @map("phone")
+  email String? @unique @map("email")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  sales Sale[]
+
+  @@map("customers")
+}
+
+/// =====================
+/// Vendas
+/// =====================
+
+model Sale {
+  id            Int            @id @unique @default(autoincrement()) @map("id")
+  customerId    Int?           @map("customer_id")
+  customer      Customer?      @relation(fields: [customerId], references: [id])
+  status        SaleStatus     @default(PAID) @map("status")
+  totalAmount   Float          @map("total_amount")
+  paymentMethod PaymentMethod? @map("payment_method")
+  paidAt        DateTime?      @map("paid_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  payments  Payment[]
+  saleItems SaleItem[]
+  User      User?      @relation(fields: [userId], references: [id])
+  userId    Int?       @map("user_id")
+  Product   Product?   @relation(fields: [productId], references: [id])
+  productId Int?       @map("product_id")
+
+  @@map("sales")
+}
+
+model SaleItem {
+  id        Int @id @unique @default(autoincrement()) @map("id")
+  saleId    Int @map("sale_id")
+  productId Int @map("product_id")
+
+  quantity   Int   @map("quantity")
+  unitPrice  Float @map("unit_price")
+  totalPrice Float @map("total_price")
+
+  sale    Sale    @relation(fields: [saleId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@unique([saleId, productId])
+  @@map("sale_items")
+}
+
 enum SaleStatus {
   PENDING  @map("PENDING")
   PAID     @map("PAID")
   CANCELED @map("CANCELED")
+}
+
+/// =====================
+/// Pagamentos
+/// =====================
+
+model Payment {
+  id     Int           @id @unique @default(autoincrement()) @map("id")
+  saleId Int           @map("sale_id")
+  sale   Sale          @relation(fields: [saleId], references: [id])
+  amount Float         @map("amount")
+  method PaymentMethod @map("method")
+  paidAt DateTime      @default(now()) @map("paid_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("payments")
 }
 
 enum PaymentMethod {
@@ -154,4 +174,68 @@ enum PaymentMethod {
   CREDIT_CARD @map("CREDIT_CARD")
   DEBIT_CARD  @map("DEBIT_CARD")
   PIX         @map("PIX")
+}
+
+/// =====================
+/// Entradas e saidas
+/// =====================
+
+model Purchase {
+  id          Int            @id @default(autoincrement()) @map("id")
+  supplierId  Int            @map("supplier_id")
+  status      PurchaseStatus @default(PENDING) @map("status")
+  totalAmount Float          @map("total_amount")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  supplier Supplier       @relation(fields: [supplierId], references: [id])
+  items    PurchaseItem[]
+}
+
+model PurchaseItem {
+  id         Int   @id @default(autoincrement()) @map("id")
+  purchaseId Int   @map("purchase_id")
+  productId  Int   @map("product_id")
+  quantity   Int   @map("quantity")
+  unitCost   Float @map("unit_cost")
+
+  purchase Purchase @relation(fields: [purchaseId], references: [id])
+  product  Product  @relation(fields: [productId], references: [id])
+}
+
+model StockMovement {
+  id        Int          @id @default(autoincrement()) @map("id")
+  productId Int          @map("product_id")
+  type      MovementType @map("type")
+  quantity  Int          @map("quantity")
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("stock_movements")
+}
+
+enum MovementType {
+  SALE
+  PURCHASE
+  ADJUSTMENT
+  RETURN
+}
+
+enum PurchaseStatus {
+  PENDING
+  RECEIVED
+  CANCELED
+}
+
+/// =====================
+/// Fornecedores
+/// =====================
+
+model Supplier {
+  id        Int      @id @default(autoincrement()) @map("id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  Purchase Purchase[]
 }
