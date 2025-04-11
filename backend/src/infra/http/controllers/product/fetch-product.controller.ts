@@ -1,7 +1,5 @@
 import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/common'
 
-import { ContentWithPaginationPresenter } from '../../presenters/content-whith-pagination.presenter'
-import { FetchProductsUseCase } from '@/domain/product/application/use-cases/fetch-products'
 import { ProductPresenter } from '../../presenters/product.presenter'
 import { FetchProductUseCase } from '@/domain/product/application/use-cases/fetch-product'
 

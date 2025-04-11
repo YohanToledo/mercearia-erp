@@ -1,5 +1,5 @@
 import { Entity } from '@/core/entities/entity'
-import { ProductCategory } from '@prisma/client'
+import { ProductCategory } from './product-category'
 
 export type ProductStatus = 'ACTIVE' | 'INACTIVE' | 'DELETED'
 

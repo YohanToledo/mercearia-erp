@@ -87,10 +87,11 @@ enum ProductCategoryStatus {
 /// =====================
 
 model Customer {
-  id    Int     @id @unique @default(autoincrement()) @map("id")
-  name  String  @map("name")
-  phone String? @map("phone")
-  email String? @unique @map("email")
+  id     Int            @id @unique @default(autoincrement()) @map("id")
+  name   String         @map("name")
+  phone  String?        @map("phone")
+  email  String?        @unique @map("email")
+  status CustomerStatus @default(ACTIVE) @map("status")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -98,6 +99,12 @@ model Customer {
   sales Sale[]
 
   @@map("customers")
+}
+
+enum CustomerStatus {
+  ACTIVE   @map("ACTIVE")
+  INACTIVE @map("INACTIVE")
+  DELETED  @map("DELETED")
 }
 
 /// =====================
@@ -190,6 +197,8 @@ model Purchase {
 
   supplier Supplier       @relation(fields: [supplierId], references: [id])
   items    PurchaseItem[]
+
+  @@map("purchase")
 }
 
 model PurchaseItem {
@@ -201,6 +210,8 @@ model PurchaseItem {
 
   purchase Purchase @relation(fields: [purchaseId], references: [id])
   product  Product  @relation(fields: [productId], references: [id])
+
+  @@map("purchase_items")
 }
 
 model StockMovement {
@@ -238,4 +249,6 @@ model Supplier {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   Purchase Purchase[]
+
+  @@map("suppliers")
 }

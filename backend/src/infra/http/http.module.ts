@@ -31,6 +31,14 @@ import { FetchProductController } from './controllers/product/fetch-product.cont
 import { UpdateProductController } from './controllers/product/update-product.controller'
 import { FetchProductUseCase } from '@/domain/product/application/use-cases/fetch-product'
 import { UpdateProductUseCase } from '@/domain/product/application/use-cases/update-product'
+import { CreateCustomerController } from './controllers/customer/create-customer.controller'
+import { FetchCustomersController } from './controllers/customer/fetch-customers.controller'
+import { FetchCustomerController } from './controllers/customer/fetch-customer.controller'
+import { UpdateCustomerController } from './controllers/customer/update-customer.controller'
+import { CreateCustomerUseCase } from '@/domain/customer/application/use-cases/create-customer'
+import { FetchCustomersUseCase } from '@/domain/customer/application/use-cases/fetch-customers'
+import { FetchCustomerUseCase } from '@/domain/customer/application/use-cases/fetch-customer'
+import { UpdateCustomerUseCase } from '@/domain/customer/application/use-cases/update-customer'
 
 @Module({
   imports: [
@@ -59,6 +67,10 @@ import { UpdateProductUseCase } from '@/domain/product/application/use-cases/upd
     FetchProductsController,
     FetchProductController,
     UpdateProductController,
+    CreateCustomerController,
+    FetchCustomersController,
+    FetchCustomerController,
+    UpdateCustomerController,
   ],
   providers: [
     AuthenticateUseCase,
@@ -73,6 +85,10 @@ import { UpdateProductUseCase } from '@/domain/product/application/use-cases/upd
     FetchProductsUseCase,
     FetchProductUseCase,
     UpdateProductUseCase,
+    CreateCustomerUseCase,
+    FetchCustomersUseCase,
+    FetchCustomerUseCase,
+    UpdateCustomerUseCase,
   ],
 })
 export class HttpModule {}
