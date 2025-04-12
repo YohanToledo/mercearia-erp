@@ -38,8 +38,6 @@ export class CreateProductController {
       throw error.toHttpException()
     }
 
-    const { product: createdProduct } = result.value
-
-    return ProductPresenter.toHTTP(createdProduct)
+    return ProductPresenter.toHTTP(result.value)
   }
 }

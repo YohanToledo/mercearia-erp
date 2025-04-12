@@ -18,7 +18,7 @@ interface CreateProductUseCaseRequest {
   minStockLevel?: number
 }
 
-type CreateProductUseCaseResponse = Either<ProductConflictError | CategoryNotFoundError, { product: Product }>
+type CreateProductUseCaseResponse = Either<ProductConflictError | CategoryNotFoundError, Product>
 
 @Injectable()
 export class CreateProductUseCase {
@@ -49,7 +49,7 @@ export class CreateProductUseCase {
 
     const createdProduct = await this.productRepository.create(product)
 
-    return right({ product: createdProduct })
+    return right(createdProduct)
   }
 
   private calculateProfitMargin(unitCost: number, salePrice: number): number {

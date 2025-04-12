@@ -1,9 +1,8 @@
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
-import { Product, ProductStatus } from '../../enterprise/entities/product'
-import { ProductRepository } from '../repositories/product.repository'
-import { ProductCategoryStatus } from '../../enterprise/entities/product-category'
+import { ProductCategory, ProductCategoryStatus } from '../../enterprise/entities/product-category'
+import { ProductCategoryRepository } from '../repositories/product-category.repository'
 
 interface UpdateProductCategoryUseCaseRequest {
   id: number
@@ -14,14 +13,12 @@ interface UpdateProductCategoryUseCaseRequest {
 
 type UpdateProductCategoryUseCaseResponse = Either<
   ResourceNotFoundError,
-  {
-    category: Product
-  }
+  ProductCategory
 >
 
 @Injectable()
 export class UpdateProductCategoryUseCase {
-  constructor(private categoryRepository: ProductRepository) { }
+  constructor(private categoryRepository: ProductCategoryRepository) { }
 
   async execute(
     request: UpdateProductCategoryUseCaseRequest,
@@ -38,8 +35,6 @@ export class UpdateProductCategoryUseCase {
 
     await this.categoryRepository.save(category)
 
-    return right({
-      category,
-    })
+    return right(category)
   }
 }
