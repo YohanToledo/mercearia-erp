@@ -47,7 +47,6 @@ model Product {
   minStockLevel Int           @default(0) @map("min_stock_level")
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @default(now()) @updatedAt @map("updated_at")
-  sale          Sale[]
 
   category      ProductCategory @relation("CategoryProducts", fields: [categoryId], references: [id])
   saleItem      SaleItem[]
@@ -125,10 +124,8 @@ model Sale {
 
   payments  Payment[]
   saleItems SaleItem[]
-  User      User?      @relation(fields: [userId], references: [id])
-  userId    Int?       @map("user_id")
-  Product   Product?   @relation(fields: [productId], references: [id])
-  productId Int?       @map("product_id")
+  User      User      @relation(fields: [userId], references: [id])
+  userId    Int       @map("user_id")
 
   @@map("sales")
 }
@@ -165,13 +162,14 @@ enum SaleStatus {
 model Payment {
   id     Int           @id @unique @default(autoincrement()) @map("id")
   saleId Int           @map("sale_id")
-  sale   Sale          @relation(fields: [saleId], references: [id])
   amount Decimal       @map("amount")
   method PaymentMethod @map("method")
   paidAt DateTime      @default(now()) @map("paid_at")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  sale Sale @relation(fields: [saleId], references: [id])
 
   @@map("payments")
 }
@@ -244,13 +242,23 @@ enum PurchaseStatus {
 /// =====================
 
 model Supplier {
-  id        Int      @id @unique @default(autoincrement()) @map("id")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  id          Int      @id @unique @default(autoincrement()) @map("id")
+  name        String   @map("name")
+  description String?  @map("description")
+  phone       String?  @map("phone")
+  email       String?  @map("email")
+  status      SupplierStatus @map("status")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
   Purchase Purchase[]
 
   @@map("suppliers")
+}
+enum SupplierStatus {
+  ACTIVE   @map("ACTIVE")
+  INACTIVE @map("INACTIVE")
+  DELETED  @map("DELETED")
 }
 
 /// =====================
