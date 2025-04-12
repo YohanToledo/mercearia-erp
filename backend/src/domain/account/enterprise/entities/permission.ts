@@ -3,6 +3,9 @@ import { Entity } from "@/core/entities/entity"
 export interface PermissionProps {
     name: string
     description: string
+    resource: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export class Permission extends Entity<PermissionProps> {

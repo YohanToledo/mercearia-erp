@@ -2,7 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
 import { ProductCategoryRepository } from '../repositories/product-category.repository'
 import { ProductCategory, ProductCategoryStatus } from '../../enterprise/entities/product-category'
-import { ProductCategoryConflictError } from './errors/product-category-conflict.error'
+import { ProductCategoryConflictError } from './errors/category-conflict.error'
 
 interface CreateProductCategoryUseCaseRequest {
   name: string

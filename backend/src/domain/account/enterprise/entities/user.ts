@@ -1,4 +1,5 @@
 import { Entity } from '@/core/entities/entity'
+import { Role } from './role'
 
 export interface UserProps {
   name: string
@@ -6,6 +7,7 @@ export interface UserProps {
   email: string | null
   password: string
   active: boolean
+  roles?: Role[]
   createdAt?: Date
   updatedAt?: Date
 }

@@ -3,6 +3,8 @@ import { Entity } from "@/core/entities/entity"
 export interface RolePermissionProps {
     roleId: string
     permissionId: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export class RolePermission extends Entity<RolePermissionProps> {
