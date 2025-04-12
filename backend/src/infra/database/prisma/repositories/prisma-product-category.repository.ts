@@ -61,12 +61,14 @@ export class PrismaProductCategoryRepository implements ProductCategoryRepositor
     await this.prisma.productCategory.update(data)
   }
 
-  async create(product: ProductCategory): Promise<void> {
+  async create(product: ProductCategory): Promise<ProductCategory> {
     const data = PrismaProductCategoryTransformer.toPrisma(product)
 
-    await this.prisma.productCategory.create({
+    const created = await this.prisma.productCategory.create({
       data,
     })
+
+    return PrismaProductCategoryTransformer.toDomain(created)
   }
 
   async softDelete(product: ProductCategory): Promise<void> {

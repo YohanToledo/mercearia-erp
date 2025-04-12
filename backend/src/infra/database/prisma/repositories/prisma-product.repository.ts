@@ -9,7 +9,7 @@ import { PrismaProductTransformer } from '../transformers/prisma-product.transfo
 
 @Injectable()
 export class PrismaProductRepository implements ProductRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async findMany(
     { page, limit }: PaginationParams,
@@ -42,6 +42,14 @@ export class PrismaProductRepository implements ProductRepository {
       products: products.map(PrismaProductTransformer.toDomain),
       total,
     }
+  }
+
+  async countProductsByCategory(categoryId: number): Promise<number> {
+    return this.prisma.product.count({
+      where: {
+        categoryId,
+      },
+    })
   }
 
   async findById(id: number): Promise<Product | null> {

@@ -5,7 +5,7 @@ import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { PaginationQueryParamsSchema } from '../../validators/pagination-query.validator'
 import { ContentWithPaginationPresenter } from '../../presenters/content-whith-pagination.presenter'
-import { FetchProductCategoriesUseCase } from '@/domain/product/application/use-cases/fetch-product-categories'
+import { FetchProductCategoriesUseCase } from '@/domain/product/application/use-cases/fetch-categories'
 import { ProductCategoryPresenter } from '../../presenters/product-category.presenter'
 
 const ProductCategoryQueryParamsSchema = PaginationQueryParamsSchema.extend({

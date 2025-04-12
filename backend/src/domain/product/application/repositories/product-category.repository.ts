@@ -9,6 +9,6 @@ export abstract class ProductCategoryRepository {
 
   abstract findById(id: number): Promise<ProductCategory | null>
   abstract save(category: ProductCategory): Promise<void>
-  abstract create(category: ProductCategory): Promise<void>
-  abstract softDelete(category: Partial<ProductCategory>): Promise<void>
+  abstract create(category: ProductCategory): Promise<ProductCategory>
+  abstract softDelete(id: ProductCategory): Promise<void>
 }
