@@ -10,6 +10,7 @@ interface CreateUserUseCaseRequest {
   name: string
   username: string
   password: string
+  roleId: number
   email?: string
   active?: boolean
 }
@@ -23,7 +24,7 @@ export class CreateUserUseCase {
   async execute(
     request: CreateUserUseCaseRequest,
   ): Promise<CreateUserUseCaseResponse> {
-    const { name, username, email, password, active = true } = request
+    const { name, username, email, password, roleId, active = true } = request
 
     const userWithSameUsername = await this.userRepository.findByUsername(username)
 
@@ -39,6 +40,7 @@ export class CreateUserUseCase {
       email: email || null,
       password: hashedPassword,
       active,
+      roleId
     })
 
     const createdUser = await this.userRepository.create(user)

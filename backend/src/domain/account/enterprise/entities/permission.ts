@@ -25,6 +25,22 @@ export class Permission extends Entity<PermissionProps> {
         this.props.description = description
     }
 
+    get resource() {
+        return this.props.resource
+    }
+
+    set resource(resource: string) {
+        this.props.resource = resource
+    }
+
+    get createdAt() {
+        return this.props.createdAt
+    }
+
+    get updatedAt() {
+        return this.props.updatedAt
+    }
+
     static create(props: PermissionProps, id?: number) {
         return new Permission(props, id ?? 0)
     }

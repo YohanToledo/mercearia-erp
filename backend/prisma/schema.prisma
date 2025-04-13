@@ -22,10 +22,13 @@ model User {
   username  String   @unique @map("username")
   email     String?  @unique @map("email")
   password  String   @map("password")
+  roleId    Int      @map("role_id")
   active    Boolean  @default(true) @map("active")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-  Sale      Sale[]
+
+  sales Sale[]
+  role  Role   @relation(fields: [roleId], references: [id])
 
   @@map("users")
 }
@@ -38,7 +41,9 @@ model Role {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
-  permissions RolePermission[]
+  users       User[]
+  permissions Permission[]
+
   @@map("roles")
 }
 
@@ -50,22 +55,23 @@ model Permission {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
-  role RolePermission[]
+  role Role[]
+
   @@map("permissions")
 }
 
-model RolePermission {
-  id           Int      @id @unique @default(autoincrement()) @map("id")
-  roleId       Int   @map("role_id")
-  permissionId Int   @map("permission_id")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
+// model RolePermission {
+//   id           Int      @id @unique @default(autoincrement()) @map("id")
+//   roleId       Int      @map("role_id")
+//   permissionId Int      @map("permission_id")
+//   createdAt    DateTime @default(now()) @map("created_at")
+//   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
 
-  role Role     @relation(fields: [roleId], references: [id])
-  permission Permission @relation(fields: [permissionId], references: [id])
+//   role       Role       @relation(fields: [roleId], references: [id])
+//   permission Permission @relation(fields: [permissionId], references: [id])
 
-  @@map("role_permissions")
-}
+//   @@map("role_permissions")
+// }
 
 /// =====================
 /// Produto e categorias

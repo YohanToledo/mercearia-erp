@@ -19,8 +19,7 @@ type UserQueryParams = z.infer<typeof UserQueryParamsSchema>
 
 const queryValidationPipe = new ZodValidationPipe(UserQueryParamsSchema)
 
-@Public()
-@Controller('/users')
+@Controller('users')
 export class FetchUsersController {
   constructor(private fetchUsers: FetchUsersUseCase) { }
 

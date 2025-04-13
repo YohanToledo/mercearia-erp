@@ -9,6 +9,10 @@ import { ProductCategoryRepository } from '@/domain/product/application/reposito
 import { PrismaProductCategoryRepository } from './prisma/repositories/prisma-product-category.repository'
 import { CustomerRepository } from '@/domain/customer/application/repositories/customer.repository'
 import { PrismaCustomerRepository } from './prisma/repositories/prisma-customer.repository'
+import { PermissionRepository } from '@/domain/account/application/repositories/permission.repository'
+import { PrismaPermissionRepository } from './prisma/repositories/prisma-permission.repository'
+import { RoleRepository } from '@/domain/account/application/repositories/role.repository'
+import { PrismaRoleRepository } from './prisma/repositories/prisma-role.repository'
 
 @Module({
   providers: [
@@ -29,6 +33,14 @@ import { PrismaCustomerRepository } from './prisma/repositories/prisma-customer.
       provide: CustomerRepository,
       useClass: PrismaCustomerRepository,
     },
+    {
+      provide: PermissionRepository,
+      useClass: PrismaPermissionRepository,
+    },
+    {
+      provide: RoleRepository,
+      useClass: PrismaRoleRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -36,6 +48,8 @@ import { PrismaCustomerRepository } from './prisma/repositories/prisma-customer.
     ProductRepository,
     ProductCategoryRepository,
     CustomerRepository,
+    PermissionRepository,
+    RoleRepository,
   ],
 })
 export class DatabaseModule {}

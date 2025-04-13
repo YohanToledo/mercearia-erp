@@ -9,7 +9,7 @@ import { PrismaUserTransformer } from '../transformers/prisma-user.transformer'
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async findMany(
     { page, limit }: PaginationParams,
@@ -35,6 +35,13 @@ export class PrismaUserRepository implements UserRepository {
       take: limit,
       skip: (page - 1) * limit,
       orderBy: { createdAt: 'desc' },
+      include: {
+        role: {
+          include: {
+            permissions: true,
+          }
+        },
+      }
     })
 
     return {
@@ -46,6 +53,13 @@ export class PrismaUserRepository implements UserRepository {
   async findById(id: number): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
       where: { id },
+      include: {
+        role: {
+          include: {
+            permissions: true,
+          }
+        }
+      },
     })
 
     if (!user) {
@@ -60,6 +74,13 @@ export class PrismaUserRepository implements UserRepository {
       where: {
         email,
       },
+      include: {
+        role: {
+          include: {
+            permissions: true,
+          }
+        }
+      },
     })
 
     if (!user) {
@@ -73,6 +94,13 @@ export class PrismaUserRepository implements UserRepository {
     const user = await this.prisma.user.findUnique({
       where: {
         username,
+      },
+      include: {
+        role: {
+          include: {
+            permissions: true,
+          }
+        }
       },
     })
 

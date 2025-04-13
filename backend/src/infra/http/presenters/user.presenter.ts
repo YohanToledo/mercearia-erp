@@ -8,6 +8,10 @@ export class UserPresenter {
       username: user.username,
       email: user.email,
       active: user.active,
+      ...(user.role && user.role.permissions && {
+        role: user.role.name,
+        permissions: user.role.permissions.map(permission => permission.name)
+      })
     }
   }
 }

@@ -15,6 +15,7 @@ const createAccountBodySchema = z.object({
   password: z.string().min(5),
   email: z.string().email().optional(),
   active: z.boolean().optional(),
+  roleId: z.number(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(createAccountBodySchema)
@@ -31,7 +32,7 @@ export class CreateUserController {
     @Body(bodyValidationPipe) body: CreateAccountBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
-    const { name, username, password, email, active } = body
+    const { name, username, password, email, active, roleId } = body
 
     const result = await this.createUser.execute({
       name,
@@ -39,6 +40,7 @@ export class CreateUserController {
       password,
       email,
       active,
+      roleId
     })
 
     if (result.isLeft()) {

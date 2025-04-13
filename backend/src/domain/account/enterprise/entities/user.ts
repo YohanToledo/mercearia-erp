@@ -1,5 +1,5 @@
 import { Entity } from '@/core/entities/entity'
-import { Role } from './role'
+import { Role } from './types/role'
 
 export interface UserProps {
   name: string
@@ -7,7 +7,8 @@ export interface UserProps {
   email: string | null
   password: string
   active: boolean
-  roles?: Role[]
+  roleId: number
+  role?: Role
   createdAt?: Date
   updatedAt?: Date
 }
@@ -43,6 +44,22 @@ export class User extends Entity<UserProps> {
 
   set password(password: string) {
     this.props.password = password
+  }
+
+  get roleId(){
+    return this.props.roleId
+  }
+
+  set roleId(roleId: number){
+    this.props.roleId = roleId
+  }
+
+  get role(){
+    return this.props.role
+  }
+
+  set role(role: Role | undefined){
+    this.props.role = role
   }
 
   get active() {

@@ -1,8 +1,15 @@
 import { User } from '@/domain/account/enterprise/entities/user'
-import { Prisma, User as PrismaUser } from '@prisma/client'
+import { Prisma, User as PrismaUser, Role as PrismaRole, Permission } from '@prisma/client'
 
+type RoleWithRelations = PrismaRole & {
+  permissions: Permission[]
+}
+
+type UserWithRelations = PrismaUser & {
+  role: RoleWithRelations | null
+}
 export class PrismaUserTransformer {
-  static toDomain(raw: PrismaUser): User {
+  static toDomain(raw: UserWithRelations): User {
     return User.create(
       {
         username: raw.username,
@@ -10,6 +17,8 @@ export class PrismaUserTransformer {
         name: raw.name,
         email: raw.email,
         active: raw.active,
+        roleId: raw.roleId,
+        role: raw.role || undefined,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
@@ -23,6 +32,7 @@ export class PrismaUserTransformer {
       password: user.password,
       name: user.name,
       email: user.email,
+      roleId: user.roleId,
       active: user.active,
     }
   }
@@ -42,6 +52,7 @@ export class PrismaUserTransformer {
         email: user.email,
         active: user.active,
         password: user.password,
+        roleId: user.roleId,
       },
     }
   }

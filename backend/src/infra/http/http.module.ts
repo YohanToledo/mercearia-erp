@@ -39,6 +39,12 @@ import { CreateCustomerUseCase } from '@/domain/customer/application/use-cases/c
 import { FetchCustomersUseCase } from '@/domain/customer/application/use-cases/fetch-customers'
 import { FetchCustomerUseCase } from '@/domain/customer/application/use-cases/fetch-customer'
 import { UpdateCustomerUseCase } from '@/domain/customer/application/use-cases/update-customer'
+import { FetchPermissionsUseCase } from '@/domain/account/application/use-cases/fetch-permissions'
+import { FetchPermissionsController } from './controllers/user/fetch-permissions.controller'
+import { CreateRoleController } from './controllers/user/create-role.controller'
+import { CreateRoleUseCase } from '@/domain/account/application/use-cases/create-role'
+import { FetchRolesUseCase } from '@/domain/account/application/use-cases/fetch-roles'
+import { FetchRolesController } from './controllers/user/fetch-roles.controller'
 
 @Module({
   imports: [
@@ -71,6 +77,9 @@ import { UpdateCustomerUseCase } from '@/domain/customer/application/use-cases/u
     FetchCustomersController,
     FetchCustomerController,
     UpdateCustomerController,
+    FetchPermissionsController,
+    CreateRoleController,
+    FetchRolesController,
   ],
   providers: [
     AuthenticateUseCase,
@@ -89,6 +98,9 @@ import { UpdateCustomerUseCase } from '@/domain/customer/application/use-cases/u
     FetchCustomersUseCase,
     FetchCustomerUseCase,
     UpdateCustomerUseCase,
+    FetchPermissionsUseCase,
+    CreateRoleUseCase,
+    FetchRolesUseCase,
   ],
 })
 export class HttpModule {}
