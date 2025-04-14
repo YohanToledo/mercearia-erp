@@ -10,6 +10,7 @@ import { ProductRoute } from './pages/products/routes'
 import { SalesRoute } from './pages/sales/routes'
 import { HomeRoute } from './pages/dashboard/routes'
 import { ExpenseRoute } from './pages/expenses/routes'
+import { CustomerRoute } from './pages/customers/routes'
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
       ...SalesRoute,
       ...HomeRoute,
       ...ExpenseRoute,
+      ...CustomerRoute,
     ],
   },
   {

@@ -100,6 +100,25 @@ const navs: NavItem[] = [
     ],
   },
   {
+    key: 'customers',
+    icon: <FiDollarSign />,
+    label: 'Clientes',
+    children: [
+      {
+        key: 'new-customer',
+        icon: <FiPlusCircle />,
+        label: 'Novo Cliente',
+        path: '/workspace/customers/create',
+      },
+      {
+        key: 'list-customers',
+        icon: <FiClipboard />,
+        label: 'Lista de clientes',
+        path: '/workspace/customers/list',
+      },
+    ],
+  },
+  {
     key: 'analysis',
     icon: <AiOutlineBarChart />,
     label: 'Gráficos',
