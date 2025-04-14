@@ -43,6 +43,12 @@ import { CreateRoleController } from './controllers/role/create-role.controller'
 import { CreateRoleUseCase } from '@/domain/account/application/use-cases/create-role'
 import { FetchRolesUseCase } from '@/domain/account/application/use-cases/fetch-roles'
 import { FetchRolesController } from './controllers/role/fetch-roles.controller'
+import { CreateProductCategoryController } from './controllers/product/create-category.controller'
+import { CreateProductCategoryUseCase } from '@/domain/product/application/use-cases/create-category'
+import { UpdateProductCategoryUseCase } from '@/domain/product/application/use-cases/update-category'
+import { UpdateProductCategoryController } from './controllers/product/update-category.controller'
+import { FetchProductCategoryController } from './controllers/product/fetch-category.controller'
+import { FetchProductCategoryUseCase } from '@/domain/product/application/use-cases/fetch-category'
 
 @Module({
   imports: [
@@ -77,6 +83,9 @@ import { FetchRolesController } from './controllers/role/fetch-roles.controller'
     FetchPermissionsController,
     CreateRoleController,
     FetchRolesController,
+    CreateProductCategoryController,
+    UpdateProductCategoryController,
+    FetchProductCategoryController,
   ],
   providers: [
     AuthenticateUseCase,
@@ -97,6 +106,9 @@ import { FetchRolesController } from './controllers/role/fetch-roles.controller'
     FetchPermissionsUseCase,
     CreateRoleUseCase,
     FetchRolesUseCase,
+    CreateProductCategoryUseCase,
+    UpdateProductCategoryUseCase,
+    FetchProductCategoryUseCase,
   ],
 })
 export class HttpModule {}

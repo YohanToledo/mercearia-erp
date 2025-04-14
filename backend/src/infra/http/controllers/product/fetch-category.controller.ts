@@ -4,7 +4,7 @@ import { ProductCategoryPresenter } from '../../presenters/product-category.pres
 import { FetchProductCategoryUseCase } from '@/domain/product/application/use-cases/fetch-category'
 
 @Controller('products/categories/:id')
-export class FetchProductCategoriesController {
+export class FetchProductCategoryController {
   constructor(private fetchCategory: FetchProductCategoryUseCase) { }
 
   @Get()
@@ -12,7 +12,7 @@ export class FetchProductCategoriesController {
     @Param('id') caetgoryId: number,
   ) {
     if (Number.isNaN(caetgoryId))
-      throw new BadRequestException('Invalid product id')
+      throw new BadRequestException('Invalid category id')
 
     const result = await this.fetchCategory.execute({ id: Number(caetgoryId) })
 
