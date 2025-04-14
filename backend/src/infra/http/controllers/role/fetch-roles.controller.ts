@@ -15,7 +15,6 @@ type RoleQueryParams = z.infer<typeof RoleQueryParamsSchema>
 
 const queryValidationPipe = new ZodValidationPipe(RoleQueryParamsSchema)
 
-@Public()
 @Controller('roles')
 export class FetchRolesController {
   constructor(private fetchRoles: FetchRolesUseCase) { }

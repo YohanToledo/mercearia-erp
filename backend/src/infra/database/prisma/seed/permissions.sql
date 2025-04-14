@@ -17,3 +17,5 @@ INSERT INTO permissions (name, description, resource, created_at, updated_at) VA
 
   ('create_expense', 'Permissão para registrar despesas', 'expenses', NOW(), NOW()),
   ('view_expense', 'Permissão para visualizar despesas', 'expenses', NOW(), NOW());
+   ('all', 'Todas as permissões', 'all', NOW(), NOW());
+

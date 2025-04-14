@@ -28,8 +28,6 @@ export class CreateRoleUseCase {
 
     const permissions = await this.permissionRepository.findManyByIds(permissionIds)
 
-    console.log(permissions)
-
     if (permissions.length !== permissionIds.length) {
       return left(new PermissionNotFoundError())
     }
@@ -40,8 +38,6 @@ export class CreateRoleUseCase {
       active,
       permissions
     })
-
-    console.log(role)
 
     const createdRole = await this.roleRepository.create(role)
 

@@ -8,7 +8,7 @@ interface UpdateUserUseCaseRequest {
   id: number
   name?: string
   email?: string
-  status?: string
+  active?: boolean
 }
 
 type UpdateUserUseCaseResponse = Either<
@@ -25,7 +25,7 @@ export class UpdateUserUseCase {
   async execute(
     request: UpdateUserUseCaseRequest,
   ): Promise<UpdateUserUseCaseResponse> {
-    const { id, name, email, status } = request
+    const { id, name, email, active } = request
 
     const user = await this.userRepository.findById(id)
 
@@ -33,7 +33,7 @@ export class UpdateUserUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    user.update({ name, email })
+    user.update({ name, email, active })
 
     await this.userRepository.save(user)
 

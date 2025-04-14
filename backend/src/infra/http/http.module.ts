@@ -1,7 +1,6 @@
 
 import { Module } from '@nestjs/common'
 import { CreateUserController } from './controllers/user/create-user.controller'
-import { DeleteUserController } from './controllers/user/delete-user.controller'
 import { FetchUserController } from './controllers/user/fetch-user.controller'
 import { FetchUsersController } from './controllers/user/fetch-users.controller'
 import { UpdateUserController } from './controllers/user/update-user.controller'
@@ -14,7 +13,6 @@ import { FetchUsersUseCase } from '@/domain/account/application/use-cases/fetch-
 import { FetchUserUseCase } from '@/domain/account/application/use-cases/fetch-user'
 import { CreateUserUseCase } from '@/domain/account/application/use-cases/create-user'
 import { UpdateUserUseCase } from '@/domain/account/application/use-cases/update-user'
-import { DeleteUserUseCase } from '@/domain/account/application/use-cases/delete-user'
 import { MailModule } from '../mail/mail.module'
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
@@ -40,11 +38,11 @@ import { FetchCustomersUseCase } from '@/domain/customer/application/use-cases/f
 import { FetchCustomerUseCase } from '@/domain/customer/application/use-cases/fetch-customer'
 import { UpdateCustomerUseCase } from '@/domain/customer/application/use-cases/update-customer'
 import { FetchPermissionsUseCase } from '@/domain/account/application/use-cases/fetch-permissions'
-import { FetchPermissionsController } from './controllers/user/fetch-permissions.controller'
-import { CreateRoleController } from './controllers/user/create-role.controller'
+import { FetchPermissionsController } from './controllers/role/fetch-permissions.controller'
+import { CreateRoleController } from './controllers/role/create-role.controller'
 import { CreateRoleUseCase } from '@/domain/account/application/use-cases/create-role'
 import { FetchRolesUseCase } from '@/domain/account/application/use-cases/fetch-roles'
-import { FetchRolesController } from './controllers/user/fetch-roles.controller'
+import { FetchRolesController } from './controllers/role/fetch-roles.controller'
 
 @Module({
   imports: [
@@ -64,7 +62,6 @@ import { FetchRolesController } from './controllers/user/fetch-roles.controller'
     FetchUserController,
     CreateUserController,
     UpdateUserController,
-    DeleteUserController,
     UpdateUserController,
     AuthenticateController,
     ValidateTokenController,
@@ -88,7 +85,6 @@ import { FetchRolesController } from './controllers/user/fetch-roles.controller'
     FetchUserUseCase,
     CreateUserUseCase,
     UpdateUserUseCase,
-    DeleteUserUseCase,
     CreateProductUseCase,
     FetchProductCategoriesUseCase,
     FetchProductsUseCase,

@@ -14,7 +14,7 @@ import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 const updateUserBodySchema = z.object({
   name: z.string().optional(),
   email: z.string().email().optional(),
-  status: z.enum(['ACTIVED', 'DISABLED']).optional(),
+  active: z.boolean().optional(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(updateUserBodySchema)
@@ -33,13 +33,13 @@ export class UpdateUserController {
     if(Number.isNaN(userId))
       throw new BadRequestException('Invalid user id')
 
-    const { name, email, status } = body
+    const { name, email, active } = body
 
     const result = await this.updateUser.execute({
       id: Number(userId),
       name,
       email,
-      status,
+      active,
     })
 
     if (result.isLeft()) {

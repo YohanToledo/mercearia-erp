@@ -15,8 +15,7 @@ type PermissionQueryParams = z.infer<typeof PermissionQueryParamsSchema>
 
 const queryValidationPipe = new ZodValidationPipe(PermissionQueryParamsSchema)
 
-@Public()
-@Controller('permissions')
+@Controller('roles/permissions')
 export class FetchPermissionsController {
   constructor(private fetchPermissions: FetchPermissionsUseCase) { }
 
