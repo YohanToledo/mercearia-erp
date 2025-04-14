@@ -119,6 +119,25 @@ const navs: NavItem[] = [
     ],
   },
   {
+    key: 'suppliers',
+    icon: <FiDollarSign />,
+    label: 'Fornecedores',
+    children: [
+      {
+        key: 'new-supplier',
+        icon: <FiPlusCircle />,
+        label: 'Novo Fornecedor',
+        path: '/workspace/suppliers/create',
+      },
+      {
+        key: 'list-suppliers',
+        icon: <FiClipboard />,
+        label: 'Lista de fornecedores',
+        path: '/workspace/suppliers/list',
+      },
+    ],
+  },
+  {
     key: 'analysis',
     icon: <AiOutlineBarChart />,
     label: 'Gráficos',

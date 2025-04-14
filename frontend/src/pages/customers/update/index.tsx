@@ -12,11 +12,8 @@ import { updateCustomer } from '@/features/customers/api/update-customer'
 interface Customer {
     id: string;
     name: string;
-    salePrice: number;
-    unitCost: number;
-    profitMargin: number;
-    category: string;
-    stock: number;
+    phone?: string;
+    email?: string;
     status: 'ACTIVED' | 'DISABLED'
 }
 
