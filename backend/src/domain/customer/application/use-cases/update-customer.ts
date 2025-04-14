@@ -15,9 +15,7 @@ interface UpdateCustomerUseCaseRequest {
 
 type UpdateCustomerUseCaseResponse = Either<
   ResourceNotFoundError,
-  {
-    customer: Customer
-  }
+  Customer
 >
 
 @Injectable()
@@ -39,8 +37,6 @@ export class UpdateCustomerUseCase {
 
     await this.customerRepository.save(customer)
 
-    return right({
-      customer,
-    })
+    return right(customer)
   }
 }

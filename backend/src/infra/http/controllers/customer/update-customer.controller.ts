@@ -37,8 +37,6 @@ export class UpdateCustomerController {
       throw error.toHttpException()
     }
 
-    const { customer: createdCustomer } = result.value
-
-    return CustomerPresenter.toHTTP(createdCustomer)
+    return CustomerPresenter.toHTTP(result.value)
   }
 }

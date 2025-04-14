@@ -29,7 +29,7 @@ import { FetchProductController } from './controllers/product/fetch-product.cont
 import { UpdateProductController } from './controllers/product/update-product.controller'
 import { FetchProductUseCase } from '@/domain/product/application/use-cases/fetch-product'
 import { UpdateProductUseCase } from '@/domain/product/application/use-cases/update-product'
-import { CreateCustomerController } from './controllers/customer/create-product.controller'
+import { CreateCustomerController } from './controllers/customer/create-customer.controller'
 import { FetchCustomersController } from './controllers/customer/fetch-customers.controller'
 import { FetchCustomerController } from './controllers/customer/fetch-customer.controller'
 import { UpdateCustomerController } from './controllers/customer/update-customer.controller'
@@ -49,6 +49,14 @@ import { UpdateProductCategoryUseCase } from '@/domain/product/application/use-c
 import { UpdateProductCategoryController } from './controllers/product/update-category.controller'
 import { FetchProductCategoryController } from './controllers/product/fetch-category.controller'
 import { FetchProductCategoryUseCase } from '@/domain/product/application/use-cases/fetch-category'
+import { CreateSupplierUseCase } from '@/domain/supplier/application/use-cases/create-supplier'
+import { UpdateSupplierUseCase } from '@/domain/supplier/application/use-cases/update-supplier'
+import { FetchSuppliersUseCase } from '@/domain/supplier/application/use-cases/fetch-suppliers'
+import { FetchSupplierUseCase } from '@/domain/supplier/application/use-cases/fetch-supplier'
+import { CreateSupplierController } from './controllers/supplier/create-supplier.controller'
+import { UpdateSupplierController } from './controllers/supplier/update-supplier.controller'
+import { FetchSuppliersController } from './controllers/supplier/fetch-suppliers.controller'
+import { FetchSupplierController } from './controllers/supplier/fetch-supplier.controller'
 
 @Module({
   imports: [
@@ -86,6 +94,10 @@ import { FetchProductCategoryUseCase } from '@/domain/product/application/use-ca
     CreateProductCategoryController,
     UpdateProductCategoryController,
     FetchProductCategoryController,
+    CreateSupplierController,
+    UpdateSupplierController,
+    FetchSuppliersController,
+    FetchSupplierController,
   ],
   providers: [
     AuthenticateUseCase,
@@ -109,6 +121,10 @@ import { FetchProductCategoryUseCase } from '@/domain/product/application/use-ca
     CreateProductCategoryUseCase,
     UpdateProductCategoryUseCase,
     FetchProductCategoryUseCase,
+    CreateSupplierUseCase,
+    FetchSuppliersUseCase,
+    FetchSupplierUseCase,
+    UpdateSupplierUseCase
   ],
 })
 export class HttpModule {}
