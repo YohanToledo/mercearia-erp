@@ -42,6 +42,10 @@ export class AuthenticateUseCase {
       email: user.email,
       username: user.username,
       active: user.active,
+      ...(user.role && user.role.permissions && {
+        role: user.role.name,
+        permissions: user.role.permissions.map(permission => permission.name)
+      })
     })
 
     return right({ accessToken })
