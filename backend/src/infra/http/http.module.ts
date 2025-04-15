@@ -58,6 +58,22 @@ import { UpdateSupplierController } from './controllers/supplier/update-supplier
 import { FetchSuppliersController } from './controllers/supplier/fetch-suppliers.controller'
 import { FetchSupplierController } from './controllers/supplier/fetch-supplier.controller'
 import { LogService } from '@/domain/log/application/services/log.service'
+import { CreateExpenseCategoryController } from './controllers/expense/create-category.controller'
+import { UpdateExpenseCategoryController } from './controllers/expense/update-category.controller'
+import { FetchExpenseCategoriesController } from './controllers/expense/fetch-categories.controller'
+import { FetchExpenseCategoryController } from './controllers/expense/fetch-category.controller'
+import { FetchExpenseCategoriesUseCase } from '@/domain/expense/application/use-cases/fetch-categories'
+import { CreateExpenseCategoryUseCase } from '@/domain/expense/application/use-cases/create-category'
+import { UpdateExpenseCategoryUseCase } from '@/domain/expense/application/use-cases/update-category'
+import { FetchExpenseCategoryUseCase } from '@/domain/expense/application/use-cases/fetch-category'
+import { CreateExpenseUseCase } from '@/domain/expense/application/use-cases/create-expense'
+import { UpdateExpenseUseCase } from '@/domain/expense/application/use-cases/update-expense'
+import { FetchExpensesUseCase } from '@/domain/expense/application/use-cases/fetch-expenses'
+import { FetchExpenseUseCase } from '@/domain/expense/application/use-cases/fetch-expense'
+import { CreateExpenseController } from './controllers/expense/create-expense.controller'
+import { UpdateExpenseController } from './controllers/expense/update-expense.controller'
+import { FetchExpensesController } from './controllers/expense/fetch-expenses.controller'
+import { FetchExpenseController } from './controllers/expense/fetch-expense.controller'
 
 @Module({
   imports: [
@@ -99,6 +115,14 @@ import { LogService } from '@/domain/log/application/services/log.service'
     UpdateSupplierController,
     FetchSuppliersController,
     FetchSupplierController,
+    CreateExpenseCategoryController,
+    UpdateExpenseCategoryController,
+    FetchExpenseCategoriesController,
+    FetchExpenseCategoryController,
+    CreateExpenseController,
+    UpdateExpenseController,
+    FetchExpensesController,
+    FetchExpenseController,
   ],
   providers: [
     LogService,
@@ -126,7 +150,15 @@ import { LogService } from '@/domain/log/application/services/log.service'
     CreateSupplierUseCase,
     FetchSuppliersUseCase,
     FetchSupplierUseCase,
-    UpdateSupplierUseCase
+    UpdateSupplierUseCase,
+    CreateExpenseCategoryUseCase,
+    UpdateExpenseCategoryUseCase,
+    FetchExpenseCategoriesUseCase,
+    FetchExpenseCategoryUseCase,
+    CreateExpenseUseCase,
+    UpdateExpenseUseCase,
+    FetchExpensesUseCase,
+    FetchExpenseUseCase,
   ],
 })
 export class HttpModule {}

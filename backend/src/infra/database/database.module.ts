@@ -17,6 +17,10 @@ import { SupplierRepository } from '@/domain/supplier/application/repositories/s
 import { PrismaSupplierRepository } from './prisma/repositories/prisma-supplier.repository'
 import { LogRepository } from '@/domain/log/application/repositories/log.repository'
 import { PrismaLogRepository } from './prisma/repositories/prisma-log.repository'
+import { ExpenseCategoryRepository } from '@/domain/expense/application/repositories/expense-category.repository'
+import { PrismaExpenseCategoryRepository } from './prisma/repositories/prisma-expense-category.repository'
+import { ExpenseRepository } from '@/domain/expense/application/repositories/expense.repository'
+import { PrismaExpenseRepository } from './prisma/repositories/prisma-expense.repository'
 
 @Module({
   providers: [
@@ -53,6 +57,14 @@ import { PrismaLogRepository } from './prisma/repositories/prisma-log.repository
       provide: SupplierRepository,
       useClass: PrismaSupplierRepository,
     },
+    {
+      provide: ExpenseCategoryRepository,
+      useClass: PrismaExpenseCategoryRepository,
+    },
+    {
+      provide: ExpenseRepository,
+      useClass: PrismaExpenseRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -64,6 +76,8 @@ import { PrismaLogRepository } from './prisma/repositories/prisma-log.repository
     PermissionRepository,
     RoleRepository,
     SupplierRepository,
+    ExpenseCategoryRepository,
+    ExpenseRepository,
   ],
 })
 export class DatabaseModule {}
