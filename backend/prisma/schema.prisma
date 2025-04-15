@@ -27,11 +27,11 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  sales Sale[]
-  role  Role   @relation(fields: [roleId], references: [id])
+  sales    Sale[]
+  role     Role       @relation(fields: [roleId], references: [id])
+  AuditLog AuditLog[]
 
   @@map("users")
-  AuditLog AuditLog[]
 }
 
 model Role {
@@ -331,15 +331,16 @@ enum MeasureUnitSymbol {
 /// ===================== 
 
 model Expense {
-  id                Int       @id @default(autoincrement()) @map("id")
-  description       String    @map("description")
-  amount            Decimal   @map("amount")
-  expenseCategoryId Int       @map("expense_category_id")
-  paidAt            DateTime? @map("paid_at")
-  createdAt         DateTime  @default(now()) @map("created_at")
-  updatedAt         DateTime  @default(now()) @updatedAt @map("updated_at")
+  id          Int           @id @default(autoincrement()) @map("id")
+  description String        @map("description")
+  amount      Decimal       @map("amount")
+  categoryId  Int           @map("category_id")
+  status      ExpenseStatus @map("status")
+  paidAt      DateTime?     @map("paid_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at")
 
-  category ExpenseCategory @relation(fields: [expenseCategoryId], references: [id])
+  category ExpenseCategory @relation(fields: [categoryId], references: [id])
 
   @@map("expenses")
 }
@@ -356,6 +357,11 @@ model ExpenseCategory {
   @@map("expense_categories")
 }
 
+enum ExpenseStatus {
+  PENDING
+  PAID
+}
+
 /// =====================
 /// Logs de alteração
 /// ===================== 
@@ -363,11 +369,11 @@ model ExpenseCategory {
 model AuditLog {
   id        Int      @id @default(autoincrement())
   userId    Int?     @map("user_id")
-  action    String   @map("action")       // "CREATE", "UPDATE", "DELETE"
-  entity    String   @map("entity")       // "Product", "Sale", etc.
-  entityId  Int?     @map("entity_id")    // id do registro afetado
-  oldValue  Json?    @map("old_value")    // estado antes da alteração
-  newValue  Json?    @map("new_value")    // estado após a alteração
+  action    String   @map("action") // "CREATE", "UPDATE", "DELETE"
+  entity    String   @map("entity") // "Product", "Sale", etc.
+  entityId  Int?     @map("entity_id") // id do registro afetado
+  oldValue  Json?    @map("old_value") // estado antes da alteração
+  newValue  Json?    @map("new_value") // estado após a alteração
   createdAt DateTime @default(now()) @map("created_at")
 
   user User? @relation(fields: [userId], references: [id])
