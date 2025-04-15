@@ -160,7 +160,6 @@ model Sale {
   customer      Customer?      @relation(fields: [customerId], references: [id])
   status        SaleStatus     @default(PAID) @map("status")
   totalAmount   Decimal        @map("total_amount")
-  paymentMethod PaymentMethod? @map("payment_method")
   paidAt        DateTime?      @map("paid_at")
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -204,25 +203,32 @@ enum SaleStatus {
 /// =====================
 
 model Payment {
-  id     Int           @id @unique @default(autoincrement()) @map("id")
-  saleId Int           @map("sale_id")
-  amount Decimal       @map("amount")
-  method PaymentMethod @map("method")
-  paidAt DateTime      @default(now()) @map("paid_at")
+  id              Int      @id @unique @default(autoincrement()) @map("id")
+  saleId          Int      @map("sale_id")
+  amount          Decimal  @map("amount")
+  paymentMethodId Int      @map("method_id")
+  paidAt          DateTime @default(now()) @map("paid_at")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  sale Sale @relation(fields: [saleId], references: [id])
+  sale          Sale          @relation(fields: [saleId], references: [id])
+  paymentMethod PaymentMethod @relation(fields: [paymentMethodId], references: [id])
 
   @@map("payments")
 }
 
-enum PaymentMethod {
-  CASH        @map("CASH")
-  CREDIT_CARD @map("CREDIT_CARD")
-  DEBIT_CARD  @map("DEBIT_CARD")
-  PIX         @map("PIX")
+model PaymentMethod {
+  id          Int      @id @unique @default(autoincrement()) @map("id")
+  name        String   @unique @map("name")
+  description String?  @map("description")
+  active      Boolean  @default(true) @map("active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  payments Payment[]
+
+  @@map("payment_methods")
 }
 
 /// =====================

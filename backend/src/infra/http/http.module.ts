@@ -74,6 +74,10 @@ import { CreateExpenseController } from './controllers/expense/create-expense.co
 import { UpdateExpenseController } from './controllers/expense/update-expense.controller'
 import { FetchExpensesController } from './controllers/expense/fetch-expenses.controller'
 import { FetchExpenseController } from './controllers/expense/fetch-expense.controller'
+import { FetchPaymentMethodController } from './controllers/payment/fetch-method.controller'
+import { FetchPaymentMethodsController } from './controllers/payment/fetch-methods.controller'
+import { FetchPaymentMethodUseCase } from '@/domain/payment/application/use-cases/fetch-method'
+import { FetchPaymentMethodsUseCase } from '@/domain/payment/application/use-cases/fetch-methods'
 
 @Module({
   imports: [
@@ -123,6 +127,8 @@ import { FetchExpenseController } from './controllers/expense/fetch-expense.cont
     UpdateExpenseController,
     FetchExpensesController,
     FetchExpenseController,
+    FetchPaymentMethodController,
+    FetchPaymentMethodsController,
   ],
   providers: [
     LogService,
@@ -159,6 +165,8 @@ import { FetchExpenseController } from './controllers/expense/fetch-expense.cont
     UpdateExpenseUseCase,
     FetchExpensesUseCase,
     FetchExpenseUseCase,
+    FetchPaymentMethodUseCase,
+    FetchPaymentMethodsUseCase,
   ],
 })
 export class HttpModule {}

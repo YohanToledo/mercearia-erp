@@ -21,6 +21,8 @@ import { ExpenseCategoryRepository } from '@/domain/expense/application/reposito
 import { PrismaExpenseCategoryRepository } from './prisma/repositories/prisma-expense-category.repository'
 import { ExpenseRepository } from '@/domain/expense/application/repositories/expense.repository'
 import { PrismaExpenseRepository } from './prisma/repositories/prisma-expense.repository'
+import { PaymentMethodRepository } from '@/domain/payment/application/repositories/payment-method.repository'
+import { PrismaPaymentMethodRepository } from './prisma/repositories/prisma-payment-method.repository'
 
 @Module({
   providers: [
@@ -65,6 +67,10 @@ import { PrismaExpenseRepository } from './prisma/repositories/prisma-expense.re
       provide: ExpenseRepository,
       useClass: PrismaExpenseRepository,
     },
+    {
+      provide: PaymentMethodRepository,
+      useClass: PrismaPaymentMethodRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -78,6 +84,7 @@ import { PrismaExpenseRepository } from './prisma/repositories/prisma-expense.re
     SupplierRepository,
     ExpenseCategoryRepository,
     ExpenseRepository,
+    PaymentMethodRepository
   ],
 })
 export class DatabaseModule {}
