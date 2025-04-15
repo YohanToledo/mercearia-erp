@@ -1,11 +1,12 @@
 import React from 'react'
 import { Menu } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { FiClipboard, FiDollarSign, FiList, FiPieChart, FiPlusCircle, FiShoppingBag, FiShoppingCart, FiTrendingUp } from 'react-icons/fi'
+import { FiClipboard, FiList, FiPieChart, FiPlusCircle, FiShoppingBag, FiShoppingCart, FiTrendingUp, FiTruck, FiUserCheck, FiUsers } from 'react-icons/fi'
 import * as S from './Navigation.style'
 import useUserSubPermissions from '@/hooks/useUserSubPermissions'
 import { AiOutlineBarChart, AiOutlineHome } from 'react-icons/ai'
 import { MdAttachMoney, MdOutlinePointOfSale } from 'react-icons/md'
+import { RiBillLine } from 'react-icons/ri'
 
 interface NavItem {
   key: string
@@ -23,6 +24,25 @@ const navs: NavItem[] = [
     icon: <AiOutlineHome />,
     label: 'Início',
     path: '/workspace/home',
+  },
+  {
+    key: 'users',
+    icon: <FiUserCheck />,
+    label: 'Usuários',
+    children: [
+      {
+        key: 'new-user',
+        icon: <FiPlusCircle />,
+        label: 'Novo usuário',
+        path: '/workspace/users/create',
+      },
+      {
+        key: 'list-users',
+        icon: <FiClipboard />,
+        label: 'Lista de usuários',
+        path: '/workspace/users/list',
+      },
+    ],
   },
   {
     key: 'products',
@@ -76,7 +96,7 @@ const navs: NavItem[] = [
   },
   {
     key: 'expenses',
-    icon: <FiDollarSign />,
+    icon: <RiBillLine />,
     label: 'Despesas',
     children: [
       {
@@ -101,7 +121,7 @@ const navs: NavItem[] = [
   },
   {
     key: 'customers',
-    icon: <FiDollarSign />,
+    icon: <FiUsers />,
     label: 'Clientes',
     children: [
       {
@@ -120,7 +140,7 @@ const navs: NavItem[] = [
   },
   {
     key: 'suppliers',
-    icon: <FiDollarSign />,
+    icon: <FiTruck />,
     label: 'Fornecedores',
     children: [
       {
