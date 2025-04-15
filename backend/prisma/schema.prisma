@@ -31,6 +31,7 @@ model User {
   role  Role   @relation(fields: [roleId], references: [id])
 
   @@map("users")
+  AuditLog AuditLog[]
 }
 
 model Role {
@@ -353,4 +354,23 @@ model ExpenseCategory {
   expenses Expense[]
 
   @@map("expense_categories")
+}
+
+/// =====================
+/// Logs de alteração
+/// ===================== 
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?     @map("user_id")
+  action    String   @map("action")       // "CREATE", "UPDATE", "DELETE"
+  entity    String   @map("entity")       // "Product", "Sale", etc.
+  entityId  Int?     @map("entity_id")    // id do registro afetado
+  oldValue  Json?    @map("old_value")    // estado antes da alteração
+  newValue  Json?    @map("new_value")    // estado após a alteração
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
 }

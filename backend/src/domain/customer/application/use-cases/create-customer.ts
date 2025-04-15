@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common'
 import { CustomerRepository } from '../repositories/customer.repository'
 import { Customer, CustomerStatus } from '../../enterprise/entities/customer'
 import { CustomerConflictError } from './errors/customer-conflict.error'
+import { LogService } from '@/domain/log/application/services/log.service'
 
 interface CreateCustomerUseCaseRequest {
   name: string
@@ -17,6 +18,7 @@ type CreateCustomerUseCaseResponse = Either<CustomerConflictError, { customer: C
 export class CreateCustomerUseCase {
   constructor(
     private customerRepository: CustomerRepository,
+    private logService: LogService,
   ) { }
 
   async execute(
@@ -32,6 +34,13 @@ export class CreateCustomerUseCase {
     })
 
     const createdCustomer = await this.customerRepository.create(customer)
+
+    await this.logService.create({
+      action: 'INSERT',
+      entity: 'Customer',
+      entityId: createdCustomer.id,
+      newValue: createdCustomer,
+    })
 
     return right({ customer: createdCustomer })
   }

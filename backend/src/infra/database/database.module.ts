@@ -15,10 +15,16 @@ import { RoleRepository } from '@/domain/account/application/repositories/role.r
 import { PrismaRoleRepository } from './prisma/repositories/prisma-role.repository'
 import { SupplierRepository } from '@/domain/supplier/application/repositories/supplier.repository'
 import { PrismaSupplierRepository } from './prisma/repositories/prisma-supplier.repository'
+import { LogRepository } from '@/domain/log/application/repositories/log.repository'
+import { PrismaLogRepository } from './prisma/repositories/prisma-log.repository'
 
 @Module({
   providers: [
     PrismaService,
+    {
+      provide: LogRepository,
+      useClass: PrismaLogRepository,
+    },
     {
       provide: UserRepository,
       useClass: PrismaUserRepository,
@@ -50,6 +56,7 @@ import { PrismaSupplierRepository } from './prisma/repositories/prisma-supplier.
   ],
   exports: [
     PrismaService,
+    LogRepository,
     UserRepository,
     ProductRepository,
     ProductCategoryRepository,

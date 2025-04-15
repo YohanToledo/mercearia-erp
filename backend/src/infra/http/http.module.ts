@@ -57,6 +57,7 @@ import { CreateSupplierController } from './controllers/supplier/create-supplier
 import { UpdateSupplierController } from './controllers/supplier/update-supplier.controller'
 import { FetchSuppliersController } from './controllers/supplier/fetch-suppliers.controller'
 import { FetchSupplierController } from './controllers/supplier/fetch-supplier.controller'
+import { LogService } from '@/domain/log/application/services/log.service'
 
 @Module({
   imports: [
@@ -100,6 +101,7 @@ import { FetchSupplierController } from './controllers/supplier/fetch-supplier.c
     FetchSupplierController,
   ],
   providers: [
+    LogService,
     AuthenticateUseCase,
     ValidateTokenUseCase,
     FetchUsersUseCase,
