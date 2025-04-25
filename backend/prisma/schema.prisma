@@ -155,12 +155,12 @@ enum CustomerStatus {
 /// =====================
 
 model Sale {
-  id            Int            @id @unique @default(autoincrement()) @map("id")
-  customerId    Int?           @map("customer_id")
-  customer      Customer?      @relation(fields: [customerId], references: [id])
-  status        SaleStatus     @default(PAID) @map("status")
-  totalAmount   Decimal        @map("total_amount")
-  paidAt        DateTime?      @map("paid_at")
+  id          Int        @id @unique @default(autoincrement()) @map("id")
+  customerId  Int?       @map("customer_id")
+  customer    Customer?  @relation(fields: [customerId], references: [id])
+  status      SaleStatus @default(PAID) @map("status")
+  totalAmount Decimal    @map("total_amount")
+  paidAt      DateTime?  @map("paid_at")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -203,11 +203,11 @@ enum SaleStatus {
 /// =====================
 
 model Payment {
-  id              Int      @id @unique @default(autoincrement()) @map("id")
-  saleId          Int      @map("sale_id")
-  amount          Decimal  @map("amount")
-  paymentMethodId Int      @map("method_id")
-  paidAt          DateTime @default(now()) @map("paid_at")
+  id              Int       @id @unique @default(autoincrement()) @map("id")
+  saleId          Int       @map("sale_id")
+  amount          Decimal   @map("amount")
+  paymentMethodId Int       @map("method_id")
+  paidAt          DateTime? @map("paid_at")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")

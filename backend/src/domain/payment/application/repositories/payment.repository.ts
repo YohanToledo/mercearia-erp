@@ -1,10 +1,10 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { Payment, PaymentMethod } from '../../enterprise/entities/payment';
+import { Payment } from '../../enterprise/entities/payment';
 
 export abstract class PaymentRepository {
   abstract findMany(
     params: PaginationParams,
-    filters?: { search?: string, status?: PaymentMethod },
+    filters?: { search?: string },
   ): Promise<{ payments: Payment[]; total: number }>
 
   abstract findById(id: number): Promise<Payment | null>

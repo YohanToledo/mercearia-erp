@@ -1,10 +1,10 @@
 import { Entity } from '@/core/entities/entity'
-
-export type PaymentMethod = 'CASH' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'PIX'
+import { PaymentMethod } from './types/payment'
 
 export interface PaymentProps {
     saleId: number
-    method: PaymentMethod
+    methodId: number
+    method: PaymentMethod | null
     amount: number
     paidAt: Date | null
     createdAt?: Date
@@ -20,11 +20,19 @@ export class Payment extends Entity<PaymentProps> {
         this.props.saleId = saleId
     }
 
+    get methodId() {
+        return this.props.methodId
+    }
+
+    set methodId(methodId: number) {
+        this.props.methodId = methodId
+    }
+
     get method() {
         return this.props.method
     }
 
-    set method(method: PaymentMethod) {
+    set method(method: PaymentMethod | null) {
         this.props.method = method
     }
 

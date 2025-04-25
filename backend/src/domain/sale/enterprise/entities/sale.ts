@@ -1,7 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { User } from '@/domain/account/enterprise/entities/user'
 import { Customer } from '@/domain/customer/enterprise/entities/customer'
-import { Payment, PaymentMethod } from '@/domain/payment/enterprise/entities/payment'
+import { Payment } from '@/domain/payment/enterprise/entities/payment'
 
 export type SaleStatus = 'PAID' | 'PENDING' | 'CANCELLED'
 
@@ -10,7 +10,7 @@ export interface SaleProps {
     customer?: Customer
     status: SaleStatus
     totalAmount: number
-    paymentMethod: PaymentMethod | null
+    // paymentMethod: PaymentMethod | null
     paidAt: Date | null
 
     userId: number
@@ -56,13 +56,13 @@ export class Sale extends Entity<SaleProps> {
         this.props.totalAmount = totalAmount
     }
 
-    get paymentMethod() {
-        return this.props.paymentMethod
-    }
+    // get paymentMethod() {
+    //     return this.props.paymentMethod
+    // }
 
-    set paymentMethod(paymentMethod: PaymentMethod | null) {
-        this.props.paymentMethod = paymentMethod
-    }
+    // set paymentMethod(paymentMethod: PaymentMethod | null) {
+    //     this.props.paymentMethod = paymentMethod
+    // }
 
     get paidAt() {
         return this.props.paidAt
